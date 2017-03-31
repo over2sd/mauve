@@ -1,0 +1,328 @@
+-- MySQL dump 10.13  Distrib 5.5.50, for debian-linux-gnu (i686)
+--
+-- Host: localhost    Database: umcorsb
+-- ------------------------------------------------------
+-- Server version	5.5.50-0+deb8u1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `additionals`
+--
+
+DROP TABLE IF EXISTS `additionals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `additionals` (
+  `team` bigint(20) NOT NULL,
+  `addsamt` float NOT NULL DEFAULT '0',
+  `addsdesc` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `additionals`
+--
+
+LOCK TABLES `additionals` WRITE;
+/*!40000 ALTER TABLE `additionals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `additionals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `address` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `street` varchar(128) NOT NULL,
+  `city` varchar(32) NOT NULL,
+  `state` varchar(3) NOT NULL,
+  `post` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `charges`
+--
+
+DROP TABLE IF EXISTS `charges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `charges` (
+  `team` bigint(20) NOT NULL,
+  `beds` int(11) NOT NULL DEFAULT '0',
+  `slips` int(11) NOT NULL DEFAULT '0',
+  `aparts` int(11) NOT NULL DEFAULT '0',
+  `meals` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `charges`
+--
+
+LOCK TABLES `charges` WRITE;
+/*!40000 ALTER TABLE `charges` DISABLE KEYS */;
+/*!40000 ALTER TABLE `charges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `church`
+--
+
+DROP TABLE IF EXISTS `church`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `church` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `churchphone` varchar(11) DEFAULT NULL,
+  `address` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `church`
+--
+
+LOCK TABLES `church` WRITE;
+/*!40000 ALTER TABLE `church` DISABLE KEYS */;
+/*!40000 ALTER TABLE `church` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `meta`
+--
+
+DROP TABLE IF EXISTS `meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `meta` (
+  `wkcap` int(11) NOT NULL DEFAULT '0',
+  `wkmax` int(11) NOT NULL DEFAULT '0',
+  `rvmax` int(11) NOT NULL DEFAULT '0',
+  `apmax` int(11) NOT NULL DEFAULT '0',
+  `capflex` int(11) NOT NULL DEFAULT '3'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `meta`
+--
+
+LOCK TABLES `meta` WRITE;
+/*!40000 ALTER TABLE `meta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `meta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payments` (
+  `id` bigint(20) NOT NULL,
+  `team` bigint(20) NOT NULL,
+  `transaction` varchar(7) DEFAULT NULL,
+  `payver` char(4) DEFAULT NULL,
+  `amount` float DEFAULT '0',
+  `paydate` date NOT NULL,
+  `processing` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payments`
+--
+
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reserve`
+--
+
+DROP TABLE IF EXISTS `reserve`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reserve` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `contact` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `contype` char(2) NOT NULL,
+  `date1` bigint(20) NOT NULL,
+  `date2` bigint(20) DEFAULT NULL,
+  `date3` bigint(20) DEFAULT NULL,
+  `notes` text,
+  `volunteerid` bigint(20) NOT NULL,
+  `dayphone` varchar(11) DEFAULT NULL,
+  `size` int(11) NOT NULL,
+  `slips` int(11) DEFAULT NULL,
+  `aparts` int(11) DEFAULT NULL,
+  `church` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reserve`
+--
+
+LOCK TABLES `reserve` WRITE;
+/*!40000 ALTER TABLE `reserve` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reserve` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roster`
+--
+
+DROP TABLE IF EXISTS `roster`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roster` (
+  `teamid` bigint(20) NOT NULL,
+  `volunteerid` bigint(20) NOT NULL,
+  `age` int(11) NOT NULL,
+  `room` varchar(6) DEFAULT '0',
+  `forms` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roster`
+--
+
+LOCK TABLES `roster` WRITE;
+/*!40000 ALTER TABLE `roster` DISABLE KEYS */;
+/*!40000 ALTER TABLE `roster` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team`
+--
+
+DROP TABLE IF EXISTS `team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `arrive` date NOT NULL,
+  `depart` date NOT NULL,
+  `leader` bigint(20) NOT NULL,
+  `laddress` bigint(20) NOT NULL,
+  `dayphone` varchar(11) DEFAULT NULL,
+  `evephone` varchar(11) DEFAULT NULL,
+  `fax` varchar(11) DEFAULT NULL,
+  `cell` varchar(11) DEFAULT NULL,
+  `church` bigint(20) NOT NULL,
+  `pastor` varchar(75) DEFAULT NULL,
+  `size` int(11) NOT NULL,
+  `contacted` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `team`
+--
+
+LOCK TABLES `team` WRITE;
+/*!40000 ALTER TABLE `team` DISABLE KEYS */;
+/*!40000 ALTER TABLE `team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `volunteer`
+--
+
+DROP TABLE IF EXISTS `volunteer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `volunteer` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `given` varchar(21) NOT NULL,
+  `family` varchar(21) NOT NULL,
+  `printname` varchar(16) DEFAULT NULL,
+  `male` char(1) DEFAULT NULL,
+  `skills` varchar(300) DEFAULT NULL,
+  `birth` date NOT NULL,
+  `vaddress` bigint(20) NOT NULL,
+  `accom` varchar(128) DEFAULT NULL,
+  `email` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `volunteer`
+--
+
+LOCK TABLES `volunteer` WRITE;
+/*!40000 ALTER TABLE `volunteer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `volunteer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `weeks`
+--
+
+DROP TABLE IF EXISTS `weeks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `weeks` (
+  `id` bigint(20) NOT NULL,
+  `week` int(11) NOT NULL,
+  `start` date NOT NULL,
+  `finish` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `weeks`
+--
+
+LOCK TABLES `weeks` WRITE;
+/*!40000 ALTER TABLE `weeks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `weeks` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-03-31 10:25:48
