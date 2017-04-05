@@ -1,0 +1,25 @@
+How to change a week in specific circumstances:
+
+To change a week's start from Sunday to Monday:
+	UPDATE weeks SET start=DATE_ADD(start,INTERVAL 1 DAY) WHERE id=386;
+	(use the week's id value instead of 386; see below)
+To change a week's finish from Friday to another day:
+	UPDATE weeks SET finish='2017-04-12' WHERE id=386;
+	(use the appropriate date value YYYY-MM-DD, and use the week's id value instead of 386)
+	UPDATE weeks SET finish='2017-04-12' WHERE start='2017-04-09';
+	(You can also signify the week by its start date)
+To change a week's type:
+	UPDATE weeks SET weektype='CLOSED' WHERE start='2017-04-16';
+	(Other values for weektype than CLOSED could include College, Youth, Bishops. Use the appropriate start date for your week, or us the id=386 method)
+By these examples, you should be able to figure out how to change any of this table's columns to suit your needs.
+
+Examples of how to learn a week's id:
+	SELECT * FROM weeks;
+	(Show all results)
+	SELECT * FROM weeks WHERE start='2017-04-09';
+	(Show a specific week; note that the date must be an exact match)
+	SELECT id,start,finish FROM weeks WHERE weektype='Normal';
+	(You can ask for only specific columns)
+	SELECT * FROM weeks WHERE YEAR(start)='2017' AND MONTH(start) < 6;
+	(You can filter by year and month (either exact or with inequality) Try changing the "< 6" to "= 6")
+	SELECT * FROM weeks WHERE MONTH(start) >= 9;
