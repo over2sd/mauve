@@ -13,6 +13,7 @@ using std::string;
 // Prototypes for functions used in this header
 string trimWhite(string);
 int findC(const char,const string);
+void diefrom(const string);
 
 #define SQLS "localhost" // In case no server is supplied
 // open a debug file where I can write errors
@@ -31,6 +32,7 @@ namespace skr {
 	string squser = "";
 	string sqserv = "localhost";
 	string sqbase = "default";
+	bool usepass = false;
 	bool logged = false;
 	string token = "00000000";
 }
@@ -51,6 +53,9 @@ string cleanBaseMeta(string in) { // for database URLs and base names only.
 	return out; // return input with invalid characters removed
 } // end cleanBaseMeta
 
+#if SKR_GUI==3
+wxConfigBase *pConfig;
+#endif
 // setSQLbase()
 // returns success, T/F, after setting variables
 bool setSQLbase() { // Set the dbname
@@ -69,6 +74,18 @@ bool setSQLbase() { // Set the dbname
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "reading server... "; sqfile.flush();
 #endif // End using debug file
+#if SKR_GUI==3
+	string confitem = "";
+	confitem = std::string(pConfig->Read(wxT("/SQL/Server"),SQLS).mb_str());
+	std::cout << "Server is..." << confitem << "...\n";
+	skr::sqserv.assign(confitem);
+	confitem = std::string(pConfig->Read(wxT("/SQL/Base"),"x").mb_str());
+	std::cout << "Base is..." << confitem << "...\n";
+	skr::sqbase.assign(confitem);
+	confitem = std::string(pConfig->Read(wxT("/SQL/User"),"").mb_str());
+	std::cout << "User is..." << confitem << "...\n";
+	skr::squser.assign(confitem);
+#else
 	std::ifstream file("sqlserver.is", std::ios::in); // input file
 	if(file) {
 		file.read(input,128); // read server from file
@@ -76,8 +93,8 @@ bool setSQLbase() { // Set the dbname
 		if(debugmin > 8) sqfile << "{" << input << ")"; sqfile.flush();
 #endif // End using debug file
 	} // No server is okay, because we fall back to localhost.
-	skr::sqserv.assign(input);
 	file.close();
+	skr::sqserv.assign(input);
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "reading basename... "; sqfile.flush();
 #endif // End using debug file
@@ -90,10 +107,24 @@ bool setSQLbase() { // Set the dbname
 	} else { // No basename is not okay.
 		success = false; // trip the flag to die
 	}
+	skr::sqbase.assign(dbname);
+#ifdef DBOUT // Using debug file
+	if(debugmin > 5) sqfile << "reading user... "; sqfile.flush();
+#endif // End using debug file
+	file.close();
+	file.open("sqluser.is", std::ios::in); // input file
+	if(file) {
+		file.read(input,128); // read server from file
+#ifdef DBOUT // Using debug file
+		if(debugmin > 8) sqfile << "{" << input << ")"; sqfile.flush();
+#endif // End using debug file
+	} // No user is okay, because we fall back to empty.
+	skr::squser.assign(input);
+	file.close();
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "cleaning variables... "; sqfile.flush();
 #endif // End using debug file
-	skr::sqbase.assign(dbname);
+#endif // End not using GUI/config
 	skr::sqbase.assign(trimWhite(skr::sqbase)); // clean up the name of the database
 	skr::sqserv.assign(cleanBaseMeta(skr::sqserv)); // clean up the server address
 #ifdef DBOUT // Using debug file
@@ -101,6 +132,54 @@ bool setSQLbase() { // Set the dbname
 #endif // End using debug file
 	return success;
 } // end setSQLbase
+
+bool setSQLbase(const string key,const string value) {
+	if(key == "base") {
+		skr::sqbase.assign(cleanBaseMeta(value));
+		std::ofstream file("sqlbase.is", std::ios::out); // output file
+		if(file) {
+			file << skr::sqbase; // write base to file
+			#ifdef DBOUT // Using debug file
+			if(debugmin > 8) sqfile << "{" << value << ")"; sqfile.flush();
+			#endif // End using debug file
+		} else { // couldn't write file.
+			std::cout << "Error opening file sqlbase.is for writing.\n";
+			return false;
+		}
+		file.close();
+	} else if (key == "server") {
+		skr::sqserv.assign(cleanBaseMeta(value));
+		std::ofstream file("sqlserver.is", std::ios::out); // output file
+		if(file) {
+			file << skr::sqserv; // write base to file
+			#ifdef DBOUT // Using debug file
+			if(debugmin > 8) sqfile << "{" << value << ")"; sqfile.flush();
+			#endif // End using debug file
+		} else { // couldn't write file.
+			std::cout << "Error opening file sqlserver.is for writing.\n";
+			return false;
+		}
+		file.close();
+	} else if(key == "user") {
+		skr::squser.assign(trimWhite(value));
+		std::ofstream file("sqluser.is", std::ios::out); // output file
+		if(file) {
+			file << skr::squser; // write base to file
+			#ifdef DBOUT // Using debug file
+			if(debugmin > 8) sqfile << "{" << value << ")"; sqfile.flush();
+			#endif // End using debug file
+		} else { // couldn't write file.
+			std::cout << "Error opening file sqluser.is for writing.\n";
+			return false;
+		}
+		file.close();
+	} else if(key == "pass") {
+		skr::sqpass.assign(value);
+	} else {
+		return false;
+	}
+	return true;
+}
 
 // stripCGIsession(url)
 // Finds the 8-character session ID and copies it to the token variable in namespace skr::
@@ -178,7 +257,7 @@ MYSQL_RES* skr::sendSQLquery(const string my_query, const string operation, cons
 			std::cout << "<br />Oops. I maked a boo-boo. Sorry.<br />\n"
 			return NULL;
 #else // okay to choke and die
-			diefrom(s);
+			diefrom(s,2);
 #endif // endif must fail gracefully
 		} else { // If no errors...
 			result = mysql_store_result(&mysql);

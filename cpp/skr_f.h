@@ -5,9 +5,9 @@
 #define SKRF_H // prevent duplicate load
 
 #include <iostream> // cout, etc.
-#ifndef SKR_CURSESOK // I can has curses library?
-#include "nocurse.h" // fallback
-#endif // Curses included
+#ifndef SKR_CURSESOK // Not using curses terminal library
+	#include "nocurse.h"
+#endif
 #include <string> // Use strings
 using std::string;
 #include <cstring> // and cstrings
@@ -28,8 +28,8 @@ namespace skr {
 	int debug = 0; // Debug level
 }
 // string skr::timestamp(void);
-unsigned long atoul(const string);
 void diefrom(const string);
+unsigned long atoul(const string);
 string cleanStr(string);
 #include "skr_sql.h" // These prototypes might go to SQL functions. Better ensure they're loaded.
 int findC(const char,const string);
@@ -307,8 +307,13 @@ string kill0x(string in) {
 // ask for a number, then take it in. Lazy function.
 unsigned long numIn(string b = "Enter a number:") {
 	unsigned long a = 0;
-	cSayC(5,b); std::cout << " ";
+#ifdef SKR_CURSESOK // I can has curses library?
+	cSayC(5,b);
+	std::cout << " ";
 	a = getNum();
+#else
+	a = -1;
+#endif
  	return a;
 }
 
@@ -366,7 +371,13 @@ string sanitecho(string in, const string valid) { // Returns valid characters
 		if(findC(in[i],valid) != -1) {
 			out.append(in,i,1);
 		} else {
-			if(skr::debug > 4) cSayC(1,"!"); // Drop the character
+			if(skr::debug > 4) {
+#ifdef SKR_CURSESOK // I can has curses library?
+				cSayC(1,"!"); // Drop the character
+#else
+				std::cout << "!";
+#endif
+			}
 		}
 	}
 	//nothing yet
@@ -381,7 +392,13 @@ string saniterase(string in,const string bad) { // Returns not-bad characters
 		if(findC(in[i],bad) == -1) {
 			out.append(in,i,1);
 		} else {
-			if(skr::debug > 4) cSayC(1,"!"); // Drop the character
+			if(skr::debug > 4) {
+#ifdef SKR_CURSESOK // I can has curses library?
+				cSayC(1,"!"); // Drop the character
+#else
+				std::cout << "!";
+#endif
+			}
 		}
 	}
 	//nothing yet
