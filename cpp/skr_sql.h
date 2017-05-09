@@ -67,6 +67,9 @@ bool setSQLbase() { // Set the dbname
 #endif // End using debug file
 	int success = true; // Start OK
 	char input[128] = SQLS;
+#if SKR_GUI==2
+	char *prefval;
+#endif
 	char dbname[128] = "x"; // database name
 	enum { urllen = 128 };
 	skr::sqserv.reserve( urllen );
@@ -86,7 +89,18 @@ bool setSQLbase() { // Set the dbname
 	std::cout << "User is..." << confitem << "...\n";
 	skr::squser.assign(confitem);
 #else
-	std::ifstream file("sqlserver.is", std::ios::in); // input file
+	std::ifstream file;
+#if SKR_GUI==2
+	if (opts->entryExists("SQL/server")){
+		char success = opts->get(const_cast<const char*>("SQL/server"),prefval,const_cast<const char*>(SQLS),128);
+		std::cout << "Result: " << int(success) << "\n";
+		skr::sqserv.assign(prefval);
+		std::cout << "Server:" << skr::sqserv << "\n";
+	} else {
+		std::cout << "Entries: " << opts->entries() << "  ... ";
+		std::cout << "No server stored. Falling back...\n";
+#endif
+	file.open("sqlserver.is", std::ios::in); // input file
 	if(file) {
 		file.read(input,128); // read server from file
 #ifdef DBOUT // Using debug file
@@ -95,9 +109,22 @@ bool setSQLbase() { // Set the dbname
 	} // No server is okay, because we fall back to localhost.
 	file.close();
 	skr::sqserv.assign(input);
+#if SKR_GUI==2
+	}
+#endif
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "reading basename... "; sqfile.flush();
 #endif // End using debug file
+#if SKR_GUI==2
+	if (opts->entryExists("SQL/base")){
+		char success = opts->get(const_cast<const char*>("SQL/base"),prefval,"",128);
+		std::cout << "Result: " << int(success) << "\n";
+		skr::sqbase.assign(prefval);
+		std::cout << "Base:" << skr::sqbase << "\n";
+	} else {
+		std::cout << "Entries: " << opts->entries() << "  ... ";
+		std::cout << "No database stored. Falling back...\n";
+#endif
 	file.open("sqlbase.is", std::ios::in); // input file
 	if(file) {
 		file.read(dbname,128); // read database name from file
@@ -108,10 +135,23 @@ bool setSQLbase() { // Set the dbname
 		success = false; // trip the flag to die
 	}
 	skr::sqbase.assign(dbname);
+	file.close();
+#if SKR_GUI==2
+	}
+#endif
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "reading user... "; sqfile.flush();
 #endif // End using debug file
-	file.close();
+#if SKR_GUI==2
+	if (opts->entryExists("SQL/user")){
+		char success = opts->get(const_cast<const char*>("SQL/user"),prefval,"",128);
+		std::cout << "Result: " << int(success) << "\n";
+		skr::squser.assign(prefval);
+		std::cout << "User:" << skr::squser << "\n";
+	} else {
+		std::cout << "Entries: " << opts->entries() << "  ... ";
+		std::cout << "No username stored. Falling back...\n";
+#endif
 	file.open("sqluser.is", std::ios::in); // input file
 	if(file) {
 		file.read(input,128); // read server from file
@@ -121,6 +161,10 @@ bool setSQLbase() { // Set the dbname
 	} // No user is okay, because we fall back to empty.
 	skr::squser.assign(input);
 	file.close();
+#if SKR_GUI==2
+	}
+	opts->flush();
+#endif
 #ifdef DBOUT // Using debug file
 	if(debugmin > 5) sqfile << "cleaning variables... "; sqfile.flush();
 #endif // End using debug file
@@ -136,6 +180,9 @@ bool setSQLbase() { // Set the dbname
 bool setSQLbase(const string key,const string value) {
 	if(key == "base") {
 		skr::sqbase.assign(cleanBaseMeta(value));
+#if SKR_GUI==2
+		opts->set("SQL/base",skr::sqbase.c_str());
+#else
 		std::ofstream file("sqlbase.is", std::ios::out); // output file
 		if(file) {
 			file << skr::sqbase; // write base to file
@@ -147,8 +194,12 @@ bool setSQLbase(const string key,const string value) {
 			return false;
 		}
 		file.close();
+#endif
 	} else if (key == "server") {
 		skr::sqserv.assign(cleanBaseMeta(value));
+#if SKR_GUI==2
+		opts->set("SQL/serv",skr::sqserv.c_str());
+#else
 		std::ofstream file("sqlserver.is", std::ios::out); // output file
 		if(file) {
 			file << skr::sqserv; // write base to file
@@ -160,8 +211,12 @@ bool setSQLbase(const string key,const string value) {
 			return false;
 		}
 		file.close();
+#endif
 	} else if(key == "user") {
 		skr::squser.assign(trimWhite(value));
+#if SKR_GUI==2
+		opts->set("SQL/user",skr::squser.c_str());
+#else
 		std::ofstream file("sqluser.is", std::ios::out); // output file
 		if(file) {
 			file << skr::squser; // write base to file
@@ -173,6 +228,7 @@ bool setSQLbase(const string key,const string value) {
 			return false;
 		}
 		file.close();
+#endif
 	} else if(key == "pass") {
 		skr::sqpass.assign(value);
 	} else {
