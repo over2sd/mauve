@@ -48,16 +48,31 @@ void cb_close(Fl_Widget* w,void *o) {
 	exit(0);
 }
 
-void cb_servpick(Fl_Light_Button* b,void *o) {
-	
-}
-
 #define ROWH 37
 #define COLR 240
 #define TOPMAR 10
 #define RIGHT 630
 #define BUTCOL 75
 #define BUTWID 70
+
+void cb_servpick(Fl_Light_Button* b,void *o) {
+	std::cout << "Start";
+	Fl_Window *d = new Fl_Window(400,300,"Server Login");
+	Fl_Input *server = new Fl_Input(90,TOPMAR,200,32,"Address:");
+	server->value(skr::sqserv.c_str());
+	Fl_Input *dbname = new Fl_Input(90,TOPMAR + ROWH,200,32,"Database:");
+	dbname->value(skr::sqbase.c_str());
+	Fl_Input *user = new Fl_Input(90,TOPMAR + (ROWH * 2),200,32,"User:");
+	user->value(skr::squser.c_str());
+	Fl_Check_Button *usepass = new Fl_Check_Button(20,TOPMAR + (ROWH * 3),100,32,"Use Password");
+	Fl_Button *c = new Fl_Button(390 - BUTCOL,TOPMAR + (ROWH * 5),BUTWID,32,"Cancel");
+	Fl_Button *s = new Fl_Button(390 - (BUTCOL * 2),TOPMAR + (ROWH * 5),BUTWID,32,"Save");
+	d->end();
+	d->set_modal();
+	b->value(0);
+	d->show();
+	std::cout << "End";
+}
 
 int main(int argc, char **argv) {
   Fl_Window *window = new Fl_Window(640,480,PROGRAM_MAIN);
