@@ -21,6 +21,17 @@ namespace skr {
 string skr::timestamp();
 #endif
 
+char* flStr(string a) {
+	char * c = (char*)a.c_str();
+	return c;
+}
+
+char* getConf(string key,string defval) {
+	char* result;
+	opts->get(flStr(key),result,flStr(defval));
+	return result;
+}
+
 void diefrom(const string lastwords,int glevel = 0) {
 	//if (glevel > 1) { // We are GUI level 2
 	//	<show message dialog>

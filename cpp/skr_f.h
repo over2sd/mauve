@@ -418,6 +418,25 @@ string sanitizeInput(const string instr, const char t){
 					os += instr[i];
 				}
 			} break;
+		case '#':{ // telephone #s
+			int digits = 10; // standard US phone #
+#ifdef PHONE_LENGTH
+			digits = PHONE_LENGTH; // international numbers may use this flag to set a new maximum
+#endif
+			os.assign(sanitecho(instr,"0123456789")); // strip off ()-., etc.
+			int b = os.length();
+			if (b > digits && os.substr(0,1) == "1") {
+				os.assign(os.substr(1));
+				b--;
+			}
+			if (b != digits) { // too long/short
+				return "";
+			}
+#ifndef PHONE_LENGTH // This is a US number
+			os.assign(sanitecho(instr,"0123456789")); // strip off bad characters
+			os.assign("(" + os.substr(0,3) + ")" + os.substr(3,3) + "-" + os.substr(6));
+#endif
+			} break;
 		case 'x':{ // xml validity
 			for(int i=0;i<l;i++){
 				if(false){

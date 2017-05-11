@@ -5,6 +5,10 @@
  *******************************************/
 #ifndef SKRSQL_H
 #define SKRSQL_H
+#ifndef DBOUT
+int debugmin = 0;
+#endif
+
 #include <string> // We'll be using strings
 using std::string;
 #include <stdio.h> // We'll be using standard I/O
@@ -93,11 +97,10 @@ bool setSQLbase() { // Set the dbname
 #if SKR_GUI==2
 	if (opts->entryExists("SQL/server")){
 		char success = opts->get(const_cast<const char*>("SQL/server"),prefval,const_cast<const char*>(SQLS),128);
-		std::cout << "Result: " << int(success) << "\n";
+		if(debugmin > 8) std::cout << "Result: " << int(success) << "\n";
 		skr::sqserv.assign(prefval);
-		std::cout << "Server:" << skr::sqserv << "\n";
+		if(debugmin > 7) std::cout << "Server:" << skr::sqserv << "\n";
 	} else {
-		std::cout << "Entries: " << opts->entries() << "  ... ";
 		std::cout << "No server stored. Falling back...\n";
 #endif
 	file.open("sqlserver.is", std::ios::in); // input file
@@ -118,11 +121,10 @@ bool setSQLbase() { // Set the dbname
 #if SKR_GUI==2
 	if (opts->entryExists("SQL/base")){
 		char success = opts->get(const_cast<const char*>("SQL/base"),prefval,"",128);
-		std::cout << "Result: " << int(success) << "\n";
+		if(debugmin > 8) std::cout << "Result: " << int(success) << "\n";
 		skr::sqbase.assign(prefval);
-		std::cout << "Base:" << skr::sqbase << "\n";
+		if(debugmin > 7) std::cout << "Base:" << skr::sqbase << "\n";
 	} else {
-		std::cout << "Entries: " << opts->entries() << "  ... ";
 		std::cout << "No database stored. Falling back...\n";
 #endif
 	file.open("sqlbase.is", std::ios::in); // input file
@@ -145,11 +147,10 @@ bool setSQLbase() { // Set the dbname
 #if SKR_GUI==2
 	if (opts->entryExists("SQL/user")){
 		char success = opts->get(const_cast<const char*>("SQL/user"),prefval,"",128);
-		std::cout << "Result: " << int(success) << "\n";
+		if(debugmin > 8) std::cout << "Result: " << int(success) << "\n";
 		skr::squser.assign(prefval);
-		std::cout << "User:" << skr::squser << "\n";
+		if(debugmin > 7) std::cout << "User:" << skr::squser << "\n";
 	} else {
-		std::cout << "Entries: " << opts->entries() << "  ... ";
 		std::cout << "No username stored. Falling back...\n";
 #endif
 	file.open("sqluser.is", std::ios::in); // input file
@@ -162,6 +163,13 @@ bool setSQLbase() { // Set the dbname
 	skr::squser.assign(input);
 	file.close();
 #if SKR_GUI==2
+	}
+	if (opts->entryExists("SQL/usepass")){
+		char success = opts->get(flStr("SQL/usepass"),prefval,"N",128);
+		if(debugmin > 8) std::cout << "Result: " << int(success) << "\n";
+		skr::usepass = (prefval == "Y" ? true : false);
+std::cout << prefval;
+		if(debugmin > 7) std::cout << "Usepass:" << skr::usepass << "\n";
 	}
 	opts->flush();
 #endif
@@ -228,6 +236,11 @@ bool setSQLbase(const string key,const string value) {
 			return false;
 		}
 		file.close();
+#endif
+	} else if(key == "usepass") {
+		skr::usepass = (value == "Y" ? true : false);
+#if SKR_GUI==2
+		opts->set("SQL/usepass",(skr::usepass ? "Y" : "N"));
 #endif
 	} else if(key == "pass") {
 		skr::sqpass.assign(value);
