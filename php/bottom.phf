@@ -1,0 +1,15 @@
+<?php
+function showFoot($update) {
+?>
+	<footer>
+		<p>This Web application was designed using Linux and other open source software. Best viewed in a standards-compliant Web browser.</p>
+	</footer>
+	<div id="contact">
+		Please report any bugs using the <a href="https://github.com/over2sd/mauve/issues" title="Report a bug">issues with Mauve</a> tab of our Github repository.
+	</div>
+	<div id="update">This page was last updated on <?php print $update; ?>.</div>
+<div class="spacer">&nbsp;</div>
+</body>
+</html>
+<?php }
+?>

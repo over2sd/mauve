@@ -1,0 +1,29 @@
+<?php
+function resetAuth() {
+		unset($_SERVER['PHP_AUTH_USER']);
+		unset($_SERVER['PHP_AUTH_PW']);
+}
+
+if (isset($_GET['reauth'])) resetAuth();
+if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+	$_SESSION['uname'] = $_SERVER['PHP_AUTH_USER'];
+	$_SESSION['upass'] = $_SERVER['PHP_AUTH_PW'];
+} else {
+	header('WWW-Authenticate: Basic realm="Mauve DB"');
+	header('HTTP/1.0 401 Unauthorized');
+	die("You have not entered login credentials.");
+}
+
+function loginMySQL($dbname,$dbhost,$uname,$upass) {
+#	$hostinfo = "mysql:host=$dbhost;dbname=$dbname;charset=utf8";
+#	$opts = [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ];
+	$dbh = new mysqli($dbhost,$uname,$upass,$dbname);
+	if ($dbh->connect_error) {
+		echo "* <a href='?reauth=true'>Try a different login</a><br />";
+		die("Could not connect using login $uname! " . $dbh->connect_error);
+	}
+	$dbh->set_charset('utf8');
+	$_SESSION['dbh'] = $dbh;
+	return $dbh;
+}
+?>

@@ -1,0 +1,52 @@
+/* Main Template Stylesheet */
+/* by Lincoln Sayger */
+
+/* resets */
+html, body, div, h1, h2, h3, h4, h5, h6, dl, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0px; padding: 0px; }
+body, p, a, div, span, img, strong, em { border-width: 0px; line-height: 1.2em; font-size: 95%;  }
+em { font-style: italic; }
+
+/* globals */
+body { background-color: #fff; color: #000; }
+a { color: #000066; }
+a:link { white-space: nowrap; }
+.nowrap, .nobr { white-space: nowrap; }
+a:hover { color: #303; }
+a:visited { color: #003333; }
+a:active { color: #ffccff; }
+blockquote { display: block; margin: 0 2% 0 5%; }
+dl { display: block; margin-left: 95px; }
+.allcaps { text-transform: uppercase; }
+.bib { margin-left: 0.25in; text-indent: -0.25in; }
+.clr { clear: both; }
+.cro { clear: right; }
+.al a { display: block; }
+ul.nobut li { list-style-type: none; }
+.inline, ul.inline li { display: inline; }
+ul.inline { margin-left: -2.5em; }
+.block { display: block; }
+.w30 { width: 30%; }
+.w50 { width: 50%; }
+.fl { float: left; display: inline-block; }
+.fr { float: right; display: inline-block; }
+.nomar { margin: 0; padding: 0; text-indent: 0; }
+.leftpic { float: left; text-align: center; margin-right: 7px; }
+.leftpic a { display: block; text-align: center; }
+.leftpic img { border: 1px solid #000; display: block; margin-left: auto; margin-right: auto; }
+.rightpic { float: right; text-align: center; margin-left: 7px; }
+.rightpic a { display: block; text-align: center; }
+.rightpic img { border: 1px solid #000; display: block; margin-left: auto; margin-right: auto; }
+.flushr { text-align: right; }
+.red { color: #f00; background-color: #9ff; }
+.ruled { border: solid #609; border-width: 1px 0px 1px 0px; padding: 4px 0px 2px 0px; margin: 0px; }
+.surveyq { display: inline; font-weight: bold; }
+.circle { list-item-type: circle; margin-left: -2em; }
+.d404 { display: none; }
+.row { width: 100%; display: block; clear: both; padding: 0; position: relative; }
+.col1 { float: left; width: 22%; display: block; }
+.col2 { float: left; width: 48%; display: block; }
+.col3 { float: left; width: 73%; display: block; }
+.col4 { float: left; width: 30%; display: block; }
+.col4 ul li { padding: 2px 0 0 0.55em; }
+.col3 ul, .col1 ul, .col4 ul { padding: 2px 0; margin: 1px 3px 3px -3px; }
+.colbump { position: relative; top: 3px; left: 4px; }

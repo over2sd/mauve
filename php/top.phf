@@ -1,0 +1,23 @@
+<?php
+	$_SESSION['uname'] = 'invalid';
+	$_SESSION['upass'] = 'letmein';
+	$_SESSION['dbname'] = 'umcorsb';
+	$_SESSION['dbhost'] = 'localhost';
+function showHead($title) {
+	print '<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<link rel="stylesheet" type="text/css" media="all" href="main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="usb-screen.css" />
+';
+	print "	<link href='https://fonts.googleapis.com/css?family=Delius' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
+	";
+	print "<title>MAUVE: $title</title>\n";
+	print '	<meta name="viewport" content="width=device-width, initial-scale=1">
+';
+	print "</head>\n<body>";
+	print PHP_EOL;
+}
+?>
