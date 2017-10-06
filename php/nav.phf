@@ -6,7 +6,8 @@ function showNav($heading,$uname,$uri = "",$startcon = 1,$showheading = 1) {
 		<p id="navspacer"> </p>
 		<a nohref='nohref'>Working as <?php echo "$uname"; ?></a>
 		<a <?php echo ($uri == "register.php") ? 'nohref="nohref" class="this"' : 'href="register.php"' ?> alt="Register a team to request a time slot">Register</a>
-		<a <?php echo ($uri == "getvol.php") ? 'nohref="nohref" class="this"' : 'href="getvol.php"' ?> alt="Philosophies, thoughts, and ideas">Volunteers</a>
+		<a <?php echo ($uri == "getvol.php") ? 'nohref="nohref" class="this"' : 'href="getvol.php"' ?> alt="Register or search for a volunteer">Volunteers</a>
+		<a <?php echo ($uri == "getorg.php") ? 'nohref="nohref" class="this"' : 'href="getorg.php"' ?> alt="Register or search for an organization">Churches</a>
 	</nav>
 	<header>
 		<span class='title'><?php echo $heading ?></span>

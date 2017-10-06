@@ -7,6 +7,26 @@
 	include 'nav.phf';
 	showNav("Register a team",$_SESSION['uname'],"register.php",1,1);
 ?>
+	<script type="text/javascript">
+function leaderDetails(lid) {
+print "!!!";
+	if ("" == lid) {
+		document.getElementById("leaderFill").innerHTML="";
+		return;
+	} else {
+		if (window.XMLHttpRequest) { // modern browsers
+			xmlhttp = new XMLHttpRequest();
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("leaderFill").innerHTML = this.responseText;
+			}
+		};
+		xmlhttp.open("GET","filluser.php?u="+lid+"&t=lead",true);
+		xmlhttp.send();
+	}
+}
+	</script>
 	<div class="mform">
 		<form method='post' action="register.php?stage=2" onSubmit="return validate(this)">
 			<div>
@@ -19,8 +39,9 @@
 			<p>Date: <input type="text" maxlength="10" name="contact" value="<?php echo date("Y-m-d"); ?>" style="width: 6em;" />
 			Time: <input type="text" name="contime" maxlength="8" id="timeofcontact" value="<?php echo date("H:i:s",time()); ?>" style="width: 4.5em;" readonly="true" />
 			</p>
-			<p>Leader ID: <input type="text" size="4" name="leadname" id="leaderid" /> <span id="leadername"></span><!-- <input type="button" value="Choose/Add" onClick='targetitem = document.getElementById("leaderid"); dataitem = window.open("getvol.php","dataitem","toolbar=no,menubar=no,scrollbars=yes"); dataitem.targetitem = targetitem' />--></p>
-			
+			<div id="leaderFill" class="rightbox w65"><b>Choose a Leader ID to fill this area.</b></div><p>Leader ID: <input type="text" size="4" name="volunteerid" id="leaderid" /> <a nohref='nohref' class="button" onClick="leaderDetails(document.getElementByID['leaderid'].value); return false">Retrieve</a></p>
+			<br />Daytime Phone #: <input type="text" name="dayphone" />
+			<div id="churchFill" class="rightbox w65"><b>Choose a Leader ID to fill this area.</b></div><p>Leader ID: <input type="text" size="4" name="volunteerid" id="leaderid" /> <a nohref='nohref' class="button" onClick="leaderDetails(document.getElementByID['leaderid'].value); return false">Retrieve</a></p>
 		<script type="text/javascript">
 		function validate(form) {
 			fail = validateCondate(form.contact.value)

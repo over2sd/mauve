@@ -62,6 +62,8 @@ function chooser(target,value) {
 		if ("M" == $male || "m" == $male) { $male = "Y"; }
 	} # used by multiple stages
 
+	$given = '';
+	$family = '';
 	if(isset($_POST['stage']) && ($_POST['stage'] == 2))
 		{ # Stage 2 (search volunteer)
 		$display = $_POST['formtype'];
@@ -177,8 +179,6 @@ function chooser(target,value) {
 			$ready = 1; # vaddress not -1 or 0, so should be a valid ID.
 			print "\t\t<p>Using vaddress ID: $vaddress.</p>\n";
 		}
-		$given = '';
-		$family = '';
 		if (1 == $ready) { # insert volunteer
 			$st = "INSERT INTO volunteer SET";
 			$ready = 0;
@@ -213,13 +213,20 @@ function chooser(target,value) {
 		}
 	} # end of stage 3
 	if (1 == $showforms) {
+		$birth = ''; if (isset($_POST['birth'])) { $birth = $_POST['birth']; }
+		$email = ''; if (isset($_POST['email'])) { $email = $_POST['email']; }
+		$stage = ''; if (isset($_POST['stage'])) { $stage = $_POST['stage']; }
+		$street = ''; if (isset($_POST['street'])) { $street = $_POST['street']; }
+		$city = ''; if (isset($_POST['city'])) { $city = $_POST['city']; }
+		$state = ''; if (isset($_POST['state'])) { $state = $_POST['state']; }
+		$postal = ''; if (isset($_POST['post'])) { $postal = $_POST['post']; }
 ?>
 
 	<div class="mform">
 		<form method='post' action="getvol.php" onSubmit="return validate(this)">
 			<p>Enter search values. Enter at least three letters of one of these fields. You may use a wildcard (e.g., "Smi%" for Smith).</p>
-			Given name: <input type="text" name="given" value="<?php if ("2" == $_POST['stage']) echo $_POST['given']; ?>" />
-			Family name: <input type="text" name="family" value="<?php if ("2" == $_POST['stage']) echo $_POST['family']; ?>" /> 
+			Given name: <input type="text" name="given" value="<?php if ("2" == $stage) echo $given; ?>" />
+			Family name: <input type="text" name="family" value="<?php if ("2" == $stage) echo $family; ?>" /> 
 			<input type="hidden" name="formtype" value="search" />
 			<input type="hidden" name="stage" value="2" />
 			<input type="submit" value="Search" />
@@ -229,18 +236,18 @@ function chooser(target,value) {
 	<div class="mform">
 		<form method='post' action="getvol.php" onSubmit="return validate(this)">
 			<p>Enter all possible values to add a volunteer.</p>
-			Given name: <input type="text" name="given" value="<?php if ("3" == $_POST['stage']) echo $_POST['given']; ?>" />
-			Family name: <input type="text" name="family" value="<?php if ("3" == $_POST['stage']) echo $_POST['family']; ?>" /> 
+			Given name: <input type="text" name="given" value="<?php if ("3" == $stage) echo $given; ?>" />
+			Family name: <input type="text" name="family" value="<?php if ("3" == $stage) echo $family; ?>" /> 
 			<input type="hidden" name="formtype" value="extended" /><br />
 			<input type="hidden" name="stage" value="3" />
 			Male: <input type="text" name="male" value="<?php echo $male; ?>" size="2" />
-			Birth Date: <input type="text" maxlength="10" name="birth" size="7" value="<?php echo $_POST['birth']; ?>" />
-			Email: <input type="text" name="email" size="30" value="<?php echo $_POST['email']; ?>" /><br />
+			Birth Date: <input type="text" maxlength="10" name="birth" size="7" value="<?php echo $birth; ?>" />
+			Email: <input type="text" name="email" size="30" value="<?php echo $email; ?>" /><br />
 			<input type="hidden" name="vaddress" value="-1" />
-			Street: <input type="text" name="street" size="60" value="<?php echo $_POST['street']; ?>" /><br />
-			City: <input type="text" name="city" value="<?php echo $_POST['city']; ?>" />
-			State: <input type="text" name="state" size="3" value="<?php echo $_POST['state']; ?>" />
-			Postal code: <input type="text" name="post" size="5" value="<?php echo $_POST['post']; ?>" />
+			Street: <input type="text" name="street" size="60" value="<?php echo $street; ?>" /><br />
+			City: <input type="text" name="city" value="<?php echo $city; ?>" />
+			State: <input type="text" name="state" size="3" value="<?php echo $state; ?>" />
+			Postal code: <input type="text" name="post" size="5" value="<?php echo $postal; ?>" />
 			<input type="submit" value="Add" />
 		</form>
 	</div>

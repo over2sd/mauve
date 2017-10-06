@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, h6, p { padding: 6px 0 4px 0; line-height: 1.1em; }
 h1 { font-size: 2.2em; }
 li { list-style-position: inside; }
 dl { margin: 0em; }
-#content, section { float: right; width: 77.5%; margin: 26px 0% 3em 12%; padding: 2px 2px 2px 53px; font-size: 1.2em; }
+#content, section { float: right; width: 77.5%; margin: 26px 5% 3em 1%; padding: 2px 53px 2px 2px; font-size: 1.2em; }
 #smallcontent { padding: 3px; line-height: 1.1em; border: groove 3px #500; border-radius: 4px; color: #fff; background-color: #500; margin: 1em 20px 0 5px; clear: both;}
 #smallcontent p { text-align: center; margin: 5px 1em 5px 1em; font-size: 1.15em; font-weight: bold; }
 #smallcontent a { white-space: nowrap; }
@@ -43,8 +43,8 @@ a.noext { background: none; padding-right: 0; }
 #navigation a, nav a { display: block; padding: 3px 7px 6px 24px; margin: 4px 4px 4px 9px; background: url('navbutback.png'); font-size: 1.1em; border: 2px outset #beaded; border-radius: 9px; text-align: left; }
 #navigation a:link, nav a:link { color: #005; background-color: #bfc; }
 #navigation a:visited, nav a:visited { color: #070; background-color: #bfc; background-position: 0px 50px; }
-#navigation a:hover, #navigation a:focus, nav a:hover, nav a:focus { color: #ff0; background-color: #070; font-weight: bold; font-size: 1.0em; }
-#navigation a:active, nav a:active { color: #fff; background-color: #500; border-style: inset; padding: 3px 7px 7px 17px; }
+#navigation a:hover, #navigation a:focus, nav a:hover, nav a:focus, .button:hover { color: #ff0; background-color: #070; font-weight: bold; font-size: 1.0em; }
+#navigation a:active, nav a:active, .button:active { color: #fff; background-color: #500; border-style: inset; padding: 3px 7px 7px 17px; }
 nav a.this, nav a.this:visited, nav a.this:hover, nav a.this:active, #navigation a.this, #navigation a.this:visited, #navigation a.this:hover, #navigation a.this:active { background-color: #bfc; color: #500; border-style: inset; padding: 5px 7px 5px 10px; margin: 0px 4px 5px 7px; }
 
 nav a:after { content: attr(alt); display: none; z-index: 0; text-indent: 0; }
@@ -84,6 +84,7 @@ img.c { margin-left: auto; margin-right: auto; display: block; }
 .cbox95 { text-align: center; margin: 2px 2.5% 2px 2.5%; border: 2px solid #32239f; padding: 2px; }
 .cbox { text-align: left; margin-left: auto; margin-right: auto; display: block; }
 .rightbox { float: right; width: 42%; padding-left: 1.5%; }
+.w65 { min-width: 65%; }
 
 
 .named, .named:link, .named:visited, .named:hover, .named:focus, .named:active { height: 1em; width: 0px; display: block; position: relative; padding: 0 0 4.5em 0; margin: -120px 0 120px 0;  z-index: 1; background-color: #beaded; float: left; }
@@ -93,10 +94,10 @@ img.c { margin-left: auto; margin-right: auto; display: block; }
 .tip:hover::before { position: absolute; z-index: 99; display:block; border: 2px solid #000; -moz-border-radius: 7px 28px; border-radius: 7px 28px; background: #beaded; color: #000; box-shadow: 5px 5px rgba(0,0,0,0.25); padding: 15px 8px; top: 1.25em; left: -60px; font-weight: bold; min-width: 340px; max-width: 540px; white-space: pre-line; }
 .tip[title ^='...']:hover::before { bottom: 1.25em; top: inherit; }
 .tip[offset]:hover::before { left: attr(offset,em,6); }
-.button { padding: 3px; margin: 1px; background: url('navbutback.png'); font-size: 1em; border: 2px outset #aeb; border-radius: 7px; text-align: center; text-decoration: none; }
+.button { padding: 3px; margin: 1px; font-size: 1em; border: 2px outset #aeb; border-radius: 7px; text-align: center; text-decoration: none; color: #005; background-color: #bfc; }
 
-.mform { margin: 7px; border: 1px solid #32239f; }
-.notice { border: 3px outset #43239f; border-radius: 7px; margin: 3px; }
+.mform { margin: 7px; border: 1px solid #32239f; padding: 0.75em; }
+.notice { border: 3px outset #43239f; border-radius: 7px; margin: 3px; padding: 7px; }
 
 /* Table layout */
 table, td, th { border: 1px solid #32239f; }
