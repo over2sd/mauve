@@ -26,4 +26,56 @@ function loginMySQL($dbname,$dbhost,$uname,$upass) {
 	$_SESSION['dbh'] = $dbh;
 	return $dbh;
 }
+
+
+function doSQL($qtype,$dbh,$query,$params) {
+	if (1 == $qtype) { # inserts, updates, selects expecting rows
+		$prep = $dbh->prepare($query);
+/* # For some reason, bind_param is not working on my development
+ * # machine. I've seen evidence on forum posts that there might be a
+ * # bug.
+ * # Since this program should not be present on a public Web server,
+ * # and since this program does not loan Web-server credentials to the
+ * # user (they use their own SQL logins), I'm going to build this
+ * # without parameterization. If someone can fix this, I'll gladly
+ * # accept it. But since I can't get it to work, I'm leaving it undone,
+ * # for now.
+ * # TODO: Fix this so it uses parameterization.
+		if ($wherelist == 3) {
+			echo "-=3=-";
+			if (!$prep->bind_param('ss',$first,$second)) {
+				echo "Preparation failed: " . $prep->errno . ", " . $prep->error;
+			}
+		} else {
+			if (!$prep->bind_param('s',$only)) {
+				echo "Preparation failed: " . $prep->errno . ", " . $prep->error;
+			}
+			if ($wherelist == 2) {
+				echo "=22= " . $_POST['family'] . " ";
+				$only = $_POST['family'];
+			} else {
+				echo "=21= " . $_POST['given'] . " ";
+				$only = $_POST['given'];
+			}
+		}
+		$first = $_POST['family'];
+		$second = $_POST['given'];
+		$only = $first;
+# */
+#	var_dump($prep);
+# echo "Your query: '$query'<br />";
+		echo $prep->error . "<br />\n";
+		if (!$prep->execute()) {
+			print "Execution failed: " . $prep->errno . ", " . $prep->error;
+		} else {
+			if (!$prep->store_result()) {
+				print "Failed to store results: " . $prep->errno . ", " . $prep->error;
+			} else {
+#	echo "!";
+				return $prep;
+			}	
+		}
+		return null;
+	}
+}
 ?>

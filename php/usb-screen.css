@@ -95,6 +95,8 @@ img.c { margin-left: auto; margin-right: auto; display: block; }
 .tip[offset]:hover::before { left: attr(offset,em,6); }
 .button { padding: 3px; margin: 1px; background: url('navbutback.png'); font-size: 1em; border: 2px outset #aeb; border-radius: 7px; text-align: center; text-decoration: none; }
 
+.mform { margin: 7px; border: 1px solid #32239f; }
+.notice { border: 3px outset #43239f; border-radius: 7px; margin: 3px; }
 
 /* Table layout */
 table, td, th { border: 1px solid #32239f; }
